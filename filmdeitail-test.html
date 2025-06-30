@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Filmes em Destaque</title>
+</head>
+<body>
+  <h1>Filmes em Destaque</h1>
+  <div id="filmes"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    const API_KEY = '001669de757773bb76383d910c21e88f';
+    const URL = `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=pt-BR&page=1`;
+
+    axios.get(URL)
+      .then(response => {
+        const filmes = response.data.results;
+        const container = document.getElementById('filmes');
+
+        filmes.forEach(filme => {
+          const div = document.createElement('div');
+          div.innerHTML = `
+            <h2>${filme.title}</h2>
+            <img src="https://image.tmdb.org/t/p/w200${filme.poster_path}" alt="${filme.title}">
+            <p>${filme.overview}</p>
+          `;
+          container.appendChild(div);
+        });
+      })
+      .catch(error => {
+        console.error('Erro ao buscar filmes:', error);
+      });
+  </script>
+</body>
+</html>
